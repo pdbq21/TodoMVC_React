@@ -13,4 +13,15 @@ localhost : 3000
 /****************************************/
     + style.css => base.css
 
-    - app.json(itemObject) =>  comments.json / app.json
+
+
+
+/*******************************************/
+MVC:
+
+    - M:
+        - itemObject
+    - V:
+        -
+    - C:
+        -
