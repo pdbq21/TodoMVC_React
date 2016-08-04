@@ -3,6 +3,20 @@
  */
 
 var TodoApp = React.createClass({
+  inputSubmit: function(event){
+    event.preventDefault();
+
+
+  },
+
+  handleSubmit: function(event){
+    if (event.keyCode !== 13) {
+      return;
+    }
+
+    event.preventDefault();
+
+  },
   render: function () {
     return (
       <div className="container">
@@ -11,7 +25,10 @@ var TodoApp = React.createClass({
           <div className="col-md-4">
             <h1>todos</h1>
             <form action="" id="inputForm">
-              <input type="text" className="form-control" placeholder="What needs to be done?"/>
+              <input type="text" className="form-control" placeholder="What needs to be done?"
+
+                     onKeyDown={this.handleSubmit}
+              />
             </form>
           </div>
           <div className="col-md-4"></div>
@@ -21,18 +38,7 @@ var TodoApp = React.createClass({
   }
 });
 
-var InputApp = React.createClass({
 
-
-  render: function(){
-
-
-    return (
-      <input type="text" className="form-control" placeholder="What needs to be done?"/>
-    );
-  }
-
-});
 var HtmlTagTodoApp = {
 
   HTMLTagUl: "<ul id='itemList'>%date%</ul>",
@@ -81,7 +87,7 @@ $.ajax({
 });*/
 
 ReactDOM.render(
-<TodoApp url="/api/itemObject" pollInterval={2000} />,
+<TodoApp />,
   document.getElementById('todoapp')
 );
 

@@ -55,3 +55,31 @@ Struct:
         }
    </form>
 }
+
+Step:
+    0:
+    form
+        input
+
+    1:(if <input> submit === true && first)
+        form
+            +em
+            input
+            +ul
+                +li
+                +li_down
+    and
+        input text save in 'itemObject'
+            li>span.val = $.ajax(text)
+
+    2: second submit:
+        form
+            em
+            input
+            ul
+            li
+            +li
+            ......
+            li_down
+done:
+    0 step;
