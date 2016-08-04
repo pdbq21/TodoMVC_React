@@ -32,10 +32,26 @@ MVC:
         -
 /******************/
 Struct:
-    - form
-        -input/
-        -ul
-            - li.../li
-            - li_down/
-         /ul
-    /form
+
+
+   1.{
+   <form>
+        2.{<em> </em>}
+        1.<input />
+        2.{
+        <ul>
+            2.{<li>
+                div
+                    <span>{text input}</span>
+            </li>}
+            ............
+            2.<li id='down'>
+                <div>
+                    <span>{# item /-s}</span>
+                    ..........
+                </div>
+            </li>
+        </ul>
+        }
+   </form>
+}

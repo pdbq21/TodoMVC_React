@@ -62,8 +62,10 @@ $.ajax({
   success: function(data){
     this.setState({data: data});
 
-  }.blink(this)
-
+  }.blink(this),
+ error: function(xhr, status, err) {
+ console.error(this.props.url, status, err.toString());
+ }.bind(this)
 })
 
 
