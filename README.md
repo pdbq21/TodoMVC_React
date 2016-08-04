@@ -20,8 +20,22 @@ localhost : 3000
 MVC:
 
     - M:
-        - itemObject
+        - itemObject:
+            - item :
+                -all
+                /-active
+                /-done
+
     - V:
         -
     - C:
         -
+/******************/
+Struct:
+    - form
+        -input/
+        -ul
+            - li.../li
+            - li_down/
+         /ul
+    /form

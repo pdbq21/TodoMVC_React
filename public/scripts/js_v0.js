@@ -20,6 +20,19 @@ var TodoApp = React.createClass({
     );
   }
 });
+
+var InputApp = React.createClass({
+
+
+  render: function(){
+
+
+    return (
+      <input type="text" className="form-control" placeholder="What needs to be done?"/>
+    );
+  }
+
+});
 var HtmlTagTodoApp = {
 
   HTMLTagUl: "<ul id='itemList'>%date%</ul>",
@@ -39,8 +52,31 @@ var HtmlTagTodoApp = {
 
 
 };
+/*
+var FormBox = React.createClass({
+  loadItemListFromServer: function(){
+$.ajax({
+  url: this.props.url,
+  dataType: 'json',
+  cache: false,
+  success: function(data){
+    this.setState({data: data});
+
+  }.blink(this)
+
+})
 
 
+  },
+
+  render: function(){
+
+    return ();
+
+  }
+
+
+});*/
 
 ReactDOM.render(
 <TodoApp url="/api/itemObject" pollInterval={2000} />,

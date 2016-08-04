@@ -1,11 +1,5 @@
 {
-    "itemObject": {
-        "textInput": {
-            "all": ["test"],
+           "all": ["test"],
             "active": [],
             "completed": []
-        },
-        "count": 0,
-        "activeThis": 1
-    }
 }
