@@ -2,21 +2,139 @@
  * Created by ruslan on 04.08.16.
  */
 
+/****************** Model **************************/
+var model = {
+    textInput: {
+      all: [],
+      active: [],
+      completed: []
+    },
+    count: 0,
+    activeThis: 1
+};
+
+
+/**************** end Model **************************/
+/**************** View **********************/
+var HtmlElementClassDoneAll =React.createClass({
+
+  render: function(){
+
+
+    return (
+      <em id='doneAll' className='glyphicon glyphicon-ok'></em>
+    );
+  }
+
+});
+
+var ListClassDown = React.createClass({
+  render: function(){
+
+    return (
+      <li id="down_li">
+        <div className="col-md-12">
+          <span id="item_left">1 item left</span>
+          <span className="filter activeThis" id="all">All</span>
+          <span className="filter" id="active">Active</span>
+          <span className="filter" id="completed">Completed</span>
+          <span id="ClearCompleted" style="display: none;">ClearCompleted</span>
+        </div>
+      </li>
+    );
+  }
+});
+
+var ListClassElementList = React.createClass({
+
+  render: function () {
+    return (
+
+      <li className="elementList">
+        <div className="col-md-12 ">
+          <span className="done"></span>
+          <span className="textItem"></span>
+          <span className="close glyphicon glyphicon-remove"></span>
+        </div>
+      </li>
+    );
+  }
+});
+
+var ItemList = React.createClass({
+
+render: function(){
+  return (
+  <ul id="itemList">
+    <ListClassElementList />
+    <ListClassDown />
+  </ul>
+  );
+}
+});
+
+
+var TodoAppClassContainer = React.createClass({
+
+  render: function(){
+
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col-md-4"></div>
+          <div className="col-md-4">
+            <h1>todos</h1>
+            <form action="" id="inputForm">
+              <input type="text" className="form-control" placeholder="What needs to be done?"
+                     onChange={this.handleChange}
+                     onKeyDown={this.handleSubmit}
+              />
+            </form>
+          </div>
+          <div className="col-md-4"></div>
+        </div>
+      </div>
+
+    );
+
+  }
+
+});
+
+/****************** View end ****************************/
+/*************** Control ***********************************/
+
+
+
+/************* Control end ************************************/
+
+
 var TodoApp = React.createClass({
-  inputSubmit: function(event){
-    event.preventDefault();
 
-
+  getInitialState: function() {
+    return {data: []};
   },
 
   handleSubmit: function(event){
     if (event.keyCode !== 13) {
       return;
     }
-
     event.preventDefault();
 
+
+    var textInput = event.target.value;
+
+    this.setState({text: event.target.value});
+
+
+
   },
+
+  handleChange: function (event) {
+var textInput = event.target.value;
+
+  },
+
   render: function () {
     return (
       <div className="container">
@@ -26,7 +144,7 @@ var TodoApp = React.createClass({
             <h1>todos</h1>
             <form action="" id="inputForm">
               <input type="text" className="form-control" placeholder="What needs to be done?"
-
+onChange={this.handleChange}
                      onKeyDown={this.handleSubmit}
               />
             </form>
@@ -39,25 +157,7 @@ var TodoApp = React.createClass({
 });
 
 
-var HtmlTagTodoApp = {
 
-  HTMLTagUl: "<ul id='itemList'>%date%</ul>",
-  HTMLdoneAll: "<em id='doneAll' class='glyphicon glyphicon-ok'></em>",
-  HTMLTag_down_ul: "<li id='down_li'><div class='col-md-12'>" +
-  "<span id='item_left'></span><span class='filter activeThis' id='all'>All</span>" +
-  "<span class='filter' id='active' >Active</span>" +
-  "<span class='filter' id='completed' >Completed</span>" +
-  "<span id='ClearCompleted'>ClearCompleted</span>" +
-  "</div></li>",
-  HTMLTag_li: "<li class='elementList'><div class='col-md-12 '>" +
-  "<span class='done'>" +
-  "</span><span class='textItem'>%date%" +
-  "</span><span class='close glyphicon glyphicon-remove'>" +
-  "</span>" +
-  "</div></li>"
-
-
-};
 /*
 var FormBox = React.createClass({
   loadItemListFromServer: function(){
@@ -87,7 +187,7 @@ $.ajax({
 });*/
 
 ReactDOM.render(
-<TodoApp />,
+<TodoApp url="/api/itemObject" pollInterval={2000}/>,
   document.getElementById('todoapp')
 );
 

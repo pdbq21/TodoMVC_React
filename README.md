@@ -81,5 +81,12 @@ Step:
             +li
             ......
             li_down
+
+process:
+    1. Form/input
+    2. load from 'itemObject' data
+    3. if input + text + ENTER =>
+    4. this text save in 'itemObject'
+    5. re-play step 2.
 done:
     0 step;
