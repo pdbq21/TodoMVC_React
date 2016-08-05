@@ -34,7 +34,7 @@ var ListClassDown = React.createClass({
     return (
       <li id="down_li">
         <div className="col-md-12">
-          <span id="item_left">1 item left</span>
+          <span id="item_left" value={}></span> // value = # item/s left / module.count = this
           <span className="filter activeThis" id="all">All</span>
           <span className="filter" id="active">Active</span>
           <span className="filter" id="completed">Completed</span>
@@ -53,7 +53,8 @@ var ListClassElementList = React.createClass({
       <li className="elementList">
         <div className="col-md-12 ">
           <span className="done"></span>
-          <span className="textItem"></span>
+          <span className="textItem" value={}></span>//це значення має бути рівним даним з обєкта
+
           <span className="close glyphicon glyphicon-remove"></span>
         </div>
       </li>
@@ -85,6 +86,7 @@ var TodoAppClassContainer = React.createClass({
           <div className="col-md-4">
             <h1>todos</h1>
             <form action="" id="inputForm">
+
               <input type="text" className="form-control" placeholder="What needs to be done?"
                      onChange={this.handleChange}
                      onKeyDown={this.handleSubmit}
@@ -111,8 +113,9 @@ var TodoAppClassContainer = React.createClass({
 
 var TodoApp = React.createClass({
 
-  getInitialState: function() {
-    return {data: []};
+ getInitialState: function() {
+
+   return {}
   },
 
   handleSubmit: function(event){
@@ -121,12 +124,8 @@ var TodoApp = React.createClass({
     }
     event.preventDefault();
 
-
     var textInput = event.target.value;
-
-    this.setState({text: event.target.value});
-
-
+    model.textInput.all.push(textInput);
 
   },
 
@@ -146,6 +145,7 @@ var textInput = event.target.value;
               <input type="text" className="form-control" placeholder="What needs to be done?"
 onChange={this.handleChange}
                      onKeyDown={this.handleSubmit}
+                     value=''
               />
             </form>
           </div>
@@ -158,36 +158,8 @@ onChange={this.handleChange}
 
 
 
-/*
-var FormBox = React.createClass({
-  loadItemListFromServer: function(){
-$.ajax({
-  url: this.props.url,
-  dataType: 'json',
-  cache: false,
-  success: function(data){
-    this.setState({data: data});
-
-  }.blink(this),
- error: function(xhr, status, err) {
- console.error(this.props.url, status, err.toString());
- }.bind(this)
-})
-
-
-  },
-
-  render: function(){
-
-    return ();
-
-  }
-
-
-});*/
-
 ReactDOM.render(
-<TodoApp url="/api/itemObject" pollInterval={2000}/>,
+<TodoApp />,
   document.getElementById('todoapp')
 );
 
