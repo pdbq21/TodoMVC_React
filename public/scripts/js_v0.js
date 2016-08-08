@@ -27,7 +27,7 @@ var HtmlElementClassDoneAll = React.createClass({
   }
 
 });
-// value = # item/-s left / module.count = this.#
+
 var ListClassDown = React.createClass({
   render: function () {
 
@@ -44,23 +44,8 @@ var ListClassDown = React.createClass({
     );
   }
 });
-/*
- var ListClassElementListSpanTextItem = React.createClass({
-
- render: function () {
- return (
- { model.textInput.all.map(function(textInput, index){
- <span className="textItem" key={ index }>{this.props.value}</span>//це значення має бути рівним даним з обєкта
- // { model.textInput.all.map(function(textInput, index){
- // return <span key={ index }>{textInput}</span>
- //})}
- );
- }
-
- });*/
 
 var ListClassElementList = React.createClass({
-
   render: function () {
 
     var classElementList = model.textInput.all.map(function (textInput, index) {
@@ -80,61 +65,7 @@ var ListClassElementList = React.createClass({
     return <ul id="itemList">{classElementList}</ul>;
   }
 });
-/*
- var ItemList = React.createClass({
 
- render: function(){
- return (
- <ul id="itemList">
- <ListClassElementList />
- <ListClassDown />
- </ul>
- );
- }
- });*/
-
-/*
- var TodoAppClassContainer = React.createClass({
-
- render: function(){
-
- return (
- <div className="container">
- <div className="row">
- <div className="col-md-4"></div>
- <div className="col-md-4">
- <h1>todos</h1>
- <form action="" id="inputForm">
-
- <input type="text" className="form-control" placeholder="What needs to be done?"
- onChange={this.handleChange}
- onKeyDown={this.handleSubmit}
- />
- </form>
- </div>
- <div className="col-md-4"></div>
- </div>
- </div>
-
- );
-
- }
-
- });*/
-/*
- var Hello = React.createClass({
- render: function() {
- var names = ['Jake', 'Jon', 'Thruster'];// model.textInput.all;
- return (
- <ul>
- {names.map(function(name, index){       // { model.textInput.all.map(function(textInput, index){
- return <li key={ index }>{name}</li>; // return <span key={ index }>{textInput}</span>
- })}                                     // })}
- </ul>
- )
- }
- });
- */
 
 /****************** View end ****************************/
 /*************** Control ***********************************/
@@ -147,9 +78,6 @@ var TodoApp = React.createClass({
 
 
   getInitialState: function () {
-// show textInput.all , input.val() === '' ,
-    //
-
     return {
       model: {textInput: {all: []}}
     };
@@ -174,10 +102,6 @@ var TodoApp = React.createClass({
     return event.target.value = '';// строка ввода пуста
   },
 
-  handleChange: function (event) {
-    var textInput = event.target.value;
-
-  },
   handleClick: function () {
     if (model.textInput.all.length)
       $('#itemList #down_li').remove();
@@ -223,7 +147,6 @@ var TodoApp = React.createClass({
   }
 });
 
-//console.log(model.textInput.all[0]);
 
 ReactDOM.render(
   <TodoApp />,
