@@ -2,25 +2,20 @@
  * Created by ruslan on 04.08.16.
  */
 
-/****************** Model **************************/
+
 var model = {
   textInput: {
-    all: [],
-    active: [],
-    completed: []
+    all: []
   },
   count: 0,
-  activeThis: 1
 };
 
 
-/**************** end Model **************************/
-/**************** View **********************/
+
+
 var HtmlElementClassDoneAll = React.createClass({
 
   render: function () {
-
-
     return (
       <em id='doneAll' className='glyphicon glyphicon-ok'></em>
     );
@@ -29,12 +24,21 @@ var HtmlElementClassDoneAll = React.createClass({
 });
 
 var ListClassDown = React.createClass({
+
+
   render: function () {
+    var itemLeft;
+    if (model.count > 1){
+      itemLeft = model.count +' items left';
+    }
+else{
+      itemLeft = model.count +' item left';
+    }
 
     return (
       <li id="down_li">
         <div className="col-md-12">
-          <span id="item_left"></span>
+          <span id="item_left">{itemLeft}</span>
           <span className="filter activeThis" id="all">All</span>
           <span className="filter" id="active">Active</span>
           <span className="filter" id="completed">Completed</span>
@@ -67,11 +71,6 @@ var ListClassElementList = React.createClass({
 });
 
 
-/****************** View end ****************************/
-/*************** Control ***********************************/
-
-
-/************* Control end ************************************/
 
 
 var TodoApp = React.createClass({
@@ -98,7 +97,7 @@ var TodoApp = React.createClass({
 
     this.setState({model: {textInput: {all: []}}});
 
-
+    model.count++;
     return event.target.value = '';// строка ввода пуста
   },
 
