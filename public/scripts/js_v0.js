@@ -3,12 +3,7 @@
  */
 
 
-var model = {
-  textInput: {
-    all: []
-  },
-  count: 0,
-};
+var model = [];
 
 
 
@@ -57,17 +52,19 @@ var ListClassElementList = React.createClass({
   render: function () {
 
 
-    var handleClickDone = function(){
-      console.log(25);
-    };
+    function handleClickDone(event) {
+      console.log(event.target.key);
+
+    }
 
 
-    var classElementList = model.textInput.all.map(function (textInput, index) {
-      return <li className="elementList">
+    var classElementList = model.map(function (key, index) {
+      return <li className={"elementList "+key.active} >
         <div className="col-md-12 ">
-          <span className="done" onClick={handleClickDone}></span>
 
-          <span className='textItem' key={index}>{textInput}</span>
+          <span className="done" key={index} onClick={handleClickDone} ></span>
+
+          <span className='textItem' >{key.textInput}</span>
 
           <span className="close glyphicon glyphicon-remove"></span>
         </div>
@@ -88,7 +85,7 @@ var TodoApp = React.createClass({
 
   getInitialState: function () {
     return {
-      model: {textInput: {all: []}}
+      textInput: ''
     };
 
 
@@ -102,27 +99,28 @@ var TodoApp = React.createClass({
 
     var textInput = event.target.value;
     if (textInput === '') return;
-    model.textInput.all.push(textInput);
-    console.log(model.textInput.all);
+          model.push({textInput: textInput,id: Date.now(),
+      active: ''});
 
-    this.setState({model: {textInput: {all: []}}});
+    console.log(model);
 
-    model.count++;
+    this.setState({textInput: ''});
+
+
     return event.target.value = '';// строка ввода пуста
   },
 
   handleClick: function () {
-    if (model.textInput.all.length)
+    if (model.length)
       $('#itemList #down_li').remove();
 
   },
 
   render: function () {
-
     var main;
     var doneAll;
     var ulDown;
-    if (model.textInput.all.length) {
+    if (model.length) {
       doneAll = (<HtmlElementClassDoneAll />);
 
       main = (
