@@ -7,7 +7,6 @@ var model = [];
 
 
 
-
 var HtmlElementClassDoneAll = React.createClass({
 
   render: function () {
@@ -23,18 +22,10 @@ var ListClassDown = React.createClass({
 
 
   render: function () {
-    var itemLeft;
-    if (model.count > 1){
-      itemLeft = model.count +' items left';
-    }
-else{
-      itemLeft = model.count +' item left';
-    }
-
     return (
       <li id="down_li">
         <div className="col-md-12">
-          <span id="item_left">{itemLeft}</span>
+          <span id="item_left">{console.log(this.props.count)}</span>
           <span className="filter activeThis" id="all">All</span>
           <span className="filter" id="active">Active</span>
           <span className="filter" id="completed">Completed</span>
@@ -49,14 +40,6 @@ else{
 var ListClassElementList = React.createClass({
 
   render: function () {
-
-
-  /*  function handleClickDone(event) {
-      var dataId = event.target.attributes.getNamedItem('data-reactid').value;// $().attr()
-      console.log(dataId);
-      model[dataId].active = 'completed';
-      console.log(model);
-    }*/
 
 
 var props = this.props;
@@ -87,15 +70,20 @@ var TodoApp = React.createClass({
 
 
   getInitialState: function () {
-    return {
+    return {model : [{
       textInput: '',
       active: ''
+    }
+    ],
+      count: 0
+
     };
 
 
   },
 
   handleSubmit: function (event) {
+   console.log(this.state.count +' items left');
     if (event.keyCode !== 13) {
       return;
     }
@@ -103,11 +91,8 @@ var TodoApp = React.createClass({
 
     var textInput = event.target.value;
     if (textInput === '') return;
-          model.push({textInput: textInput,id: Date.now(),
+          model.push({textInput: textInput,
       active: ''});
-
-    console.log(model);
-
     this.setState({textInput: ''});
 
 
@@ -124,8 +109,24 @@ var TodoApp = React.createClass({
     var dataId = event.target.attributes.getNamedItem('data-reactid').value;// $().attr()
 
     model[dataId].active = 'completed' === model[dataId].active? '' : 'completed';
-    console.log(model[dataId].active);
+
 this.setState({active: ''})
+  },
+
+  countItem: function () {
+
+   var countCompleted = $('.completed').size();
+    this.state.count = model.textInput.length-1 - countCompleted;
+    this.setState({count: 0});
+    if (this.state.count > 1){
+      return this.state.count +' items left';
+    }
+    else{
+      return this.state.count +' item left';
+    }
+
+
+
   },
 
   render: function () {
@@ -138,7 +139,7 @@ this.setState({active: ''})
       main = (
         <ListClassElementList text={model} onClickDone={this.handleClickDone} />
       );
-      ulDown = (<ListClassDown />);
+      ulDown = (<ListClassDown count={this.countItem} />);
 
     }
 
