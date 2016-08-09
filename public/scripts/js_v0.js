@@ -53,7 +53,8 @@ var ListClassElementList = React.createClass({
 
 
     function handleClickDone(event) {
-      console.log(event.target.key);
+      var dataId = event.target.attributes.getNamedItem('data-reactid').value;// $().attr()
+      console.log(dataId);
 
     }
 
@@ -62,7 +63,7 @@ var ListClassElementList = React.createClass({
       return <li className={"elementList "+key.active} >
         <div className="col-md-12 ">
 
-          <span className="done" key={index} onClick={handleClickDone} ></span>
+          <span className="done" data-reactid={index} onClick={handleClickDone} ></span>
 
           <span className='textItem' >{key.textInput}</span>
 
