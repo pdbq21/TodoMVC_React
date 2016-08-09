@@ -122,9 +122,9 @@ var TodoApp = React.createClass({
   handleClickDone: function(event){//event
 
     var dataId = event.target.attributes.getNamedItem('data-reactid').value;// $().attr()
-    console.log(dataId);
-    model[dataId].active = 'completed';
-    console.log(model);
+
+    model[dataId].active = 'completed' === model[dataId].active? '' : 'completed';
+    console.log(model[dataId].active);
 this.setState({active: ''})
   },
 
