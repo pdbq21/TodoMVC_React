@@ -26,6 +26,7 @@ var HtmlElementClassDoneAll = React.createClass({
 var ListClassDown = React.createClass({
 
 
+
   render: function () {
     var itemLeft;
     if (model.count > 1){
@@ -49,15 +50,24 @@ else{
   }
 });
 
+
 var ListClassElementList = React.createClass({
+
+
   render: function () {
+
+
+    var handleClickDone = function(){
+      console.log(25);
+    };
+
 
     var classElementList = model.textInput.all.map(function (textInput, index) {
       return <li className="elementList">
         <div className="col-md-12 ">
-          <span className="done"></span>
+          <span className="done" onClick={handleClickDone}></span>
 
-          <span className='textItem' key={ index }>{textInput}</span>
+          <span className='textItem' key={index}>{textInput}</span>
 
           <span className="close glyphicon glyphicon-remove"></span>
         </div>
