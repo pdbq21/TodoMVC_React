@@ -48,22 +48,24 @@ else{
 
 var ListClassElementList = React.createClass({
 
-
   render: function () {
 
 
-    function handleClickDone(event) {
+  /*  function handleClickDone(event) {
       var dataId = event.target.attributes.getNamedItem('data-reactid').value;// $().attr()
       console.log(dataId);
+      model[dataId].active = 'completed';
+      console.log(model);
+    }*/
 
-    }
 
+var props = this.props;
 
-    var classElementList = model.map(function (key, index) {
+    var classElementList = props.text.map(function (key, index) {
       return <li className={"elementList "+key.active} >
         <div className="col-md-12 ">
 
-          <span className="done" data-reactid={index} onClick={handleClickDone} ></span>
+          <span className="done" data-reactid={index} onClick={props.onClickDone} ></span>
 
           <span className='textItem' >{key.textInput}</span>
 
@@ -86,7 +88,8 @@ var TodoApp = React.createClass({
 
   getInitialState: function () {
     return {
-      textInput: ''
+      textInput: '',
+      active: ''
     };
 
 
@@ -116,6 +119,14 @@ var TodoApp = React.createClass({
       $('#itemList #down_li').remove();
 
   },
+  handleClickDone: function(event){//event
+
+    var dataId = event.target.attributes.getNamedItem('data-reactid').value;// $().attr()
+    console.log(dataId);
+    model[dataId].active = 'completed';
+    console.log(model);
+this.setState({active: ''})
+  },
 
   render: function () {
     var main;
@@ -125,7 +136,7 @@ var TodoApp = React.createClass({
       doneAll = (<HtmlElementClassDoneAll />);
 
       main = (
-        <ListClassElementList />
+        <ListClassElementList text={model} onClickDone={this.handleClickDone} />
       );
       ulDown = (<ListClassDown />);
 
