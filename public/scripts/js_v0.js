@@ -6,7 +6,6 @@
 var model = [];
 
 
-
 var HtmlElementClassDoneAll = React.createClass({
 
   render: function () {
@@ -20,12 +19,18 @@ var HtmlElementClassDoneAll = React.createClass({
 var ListClassDown = React.createClass({
 
 
-
   render: function () {
+    var countItemText;
+    if (this.props.count > 1) {
+      countItemText = this.props.count + ' items left';
+    }
+    else {
+      countItemText = this.props.count + ' item left';
+    }
     return (
       <li id="down_li">
         <div className="col-md-12">
-          <span id="item_left">{console.log(this.props.count)}</span>
+          <span id="item_left">{countItemText}</span>
           <span className="filter activeThis" id="all">All</span>
           <span className="filter" id="active">Active</span>
           <span className="filter" id="completed">Completed</span>
@@ -42,15 +47,15 @@ var ListClassElementList = React.createClass({
   render: function () {
 
 
-var props = this.props;
+    var props = this.props;
 
     var classElementList = props.text.map(function (key, index) {
-      return <li className={"elementList "+key.active} >
+      return <li className={"elementList " + key.active}>
         <div className="col-md-12 ">
 
-          <span className="done" data-reactid={index} onClick={props.onClickDone} ></span>
+          <span className="done" data-reactid={index} onClick={props.onClickDone}></span>
 
-          <span className='textItem' >{key.textInput}</span>
+          <span className='textItem'>{key.textInput}</span>
 
           <span className="close glyphicon glyphicon-remove"></span>
         </div>
@@ -64,26 +69,24 @@ var props = this.props;
 });
 
 
-
-
 var TodoApp = React.createClass({
 
 
   getInitialState: function () {
-    return {model : [{
-      textInput: '',
-      active: ''
-    }
-    ],
-      count: 0
-
+    return {
+      model: [{
+        textInput: '',
+        active: ''
+      }
+      ],
+      count: 0,
+      countActive: 0
     };
 
 
   },
 
   handleSubmit: function (event) {
-   console.log(this.state.count +' items left');
     if (event.keyCode !== 13) {
       return;
     }
@@ -91,11 +94,12 @@ var TodoApp = React.createClass({
 
     var textInput = event.target.value;
     if (textInput === '') return;
-          model.push({textInput: textInput,
-      active: ''});
+    model.push({
+      textInput: textInput,
+      active: ''
+    });
     this.setState({textInput: ''});
-
-
+    this.countItem();
     return event.target.value = '';// строка ввода пуста
   },
 
@@ -104,28 +108,28 @@ var TodoApp = React.createClass({
       $('#itemList #down_li').remove();
 
   },
-  handleClickDone: function(event){//event
-
+  handleClickDone: function (event) {//event
+    var self = this;
     var dataId = event.target.attributes.getNamedItem('data-reactid').value;// $().attr()
+    model[dataId].active = 'completed' === model[dataId].active ?
+      (function () {
+        self.state.countActive--;
 
-    model[dataId].active = 'completed' === model[dataId].active? '' : 'completed';
+        return ''
+      })() :
+      (function () {
+        self.state.countActive++;
+        return 'completed'
+      })();
 
-this.setState({active: ''})
+    this.setState({active: ''});
+    this.countItem();
   },
 
   countItem: function () {
+    this.state.count = model.length - this.state.countActive;
 
-   var countCompleted = $('.completed').size();
-    this.state.count = model.textInput.length-1 - countCompleted;
-    this.setState({count: 0});
-    if (this.state.count > 1){
-      return this.state.count +' items left';
-    }
-    else{
-      return this.state.count +' item left';
-    }
-
-
+    this.setState({count: this.state.count});
 
   },
 
@@ -137,9 +141,9 @@ this.setState({active: ''})
       doneAll = (<HtmlElementClassDoneAll />);
 
       main = (
-        <ListClassElementList text={model} onClickDone={this.handleClickDone} />
+        <ListClassElementList text={model} onClickDone={this.handleClickDone}/>
       );
-      ulDown = (<ListClassDown count={this.countItem} />);
+      ulDown = (<ListClassDown count={this.state.count}/>);
 
     }
 
@@ -152,7 +156,7 @@ this.setState({active: ''})
             <form action="" id="inputForm">
               {doneAll}
               <input type="text" className="form-control" placeholder="What needs to be done?"
-                     onChange={this.handleChange}
+
                      onKeyDown={this.handleSubmit}
                      onClick={this.handleClick}
               />
