@@ -57,7 +57,7 @@ var ListClassElementList = React.createClass({
 
           <span className='textItem'>{key.textInput}</span>
 
-          <span className="close glyphicon glyphicon-remove"></span>
+          <span className="close glyphicon glyphicon-remove" data-reactid={index} onClick={props.onclickDelete}></span>
         </div>
       </li>
 
@@ -189,6 +189,17 @@ var TodoApp = React.createClass({
 
 
   },
+
+  handleClickDelete: function(event){
+
+    var dataId = event.target.attributes.getNamedItem('data-reactid').value;
+    model.splice(dataId, 1);
+
+
+    this.setState({model: ''});
+    this.countItem();
+
+  },
   render: function () {
     var main;
     var doneAll;
@@ -197,7 +208,7 @@ var TodoApp = React.createClass({
       doneAll = (<HtmlElementClassDoneAll />);
 
       main = (
-        <ListClassElementList text={model} onClickDone={this.handleClickDone}/>
+        <ListClassElementList text={model} onClickDone={this.handleClickDone} onclickDelete={this.handleClickDelete}/>
       );
       ulDown = (<ListClassDown count={this.state.count} onClick={this.handleClickFilter}/>);
 
