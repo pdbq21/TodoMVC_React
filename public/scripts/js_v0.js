@@ -31,9 +31,9 @@ var ListClassDown = React.createClass({
       <li id="down_li">
         <div className="col-md-12">
           <span id="item_left">{countItemText}</span>
-          <span className="filter activeThis" id="all">All</span>
-          <span className="filter" id="active">Active</span>
-          <span className="filter" id="completed">Completed</span>
+          <span className="filter activeThis" id="all" onClick={this.props.onClick}>All</span>
+          <span className="filter" id="active" onClick={this.props.onClick}>Active</span>
+          <span className="filter" id="completed" onClick={this.props.onClick}>Completed</span>
           <span id="ClearCompleted" style={{display: 'none'}}>ClearCompleted</span>
         </div>
       </li>
@@ -103,13 +103,13 @@ var TodoApp = React.createClass({
     return event.target.value = '';// строка ввода пуста
   },
 
-  handleClick: function () {
-    if (model.length)
-      var elem = document.getElementById('itemList down_li');
-      elem.parentNode.removeChild(elem);
-      //$('#itemList #down_li').remove();
+  /*handleClick: function () {
+   if (model.length)
+   var elem = document.getElementById('itemList down_li');
+   elem.parentNode.removeChild(elem);
+   //$('#itemList #down_li').remove();
 
-  },
+   },*/
   handleClickDone: function (event) {//event
     var self = this;
     var dataId = event.target.attributes.getNamedItem('data-reactid').value;// $().attr()
@@ -126,6 +126,7 @@ var TodoApp = React.createClass({
 
     this.setState({active: ''});
     this.countItem();
+
   },
 
   countItem: function () {
@@ -134,7 +135,60 @@ var TodoApp = React.createClass({
     this.setState({count: this.state.count});
 
   },
+  handleClickFilter: function (elem) {
 
+
+    document.getElementsByClassName("activeThis")[0].className =
+      document.getElementsByClassName("activeThis")[0].className.replace("activeThis", "");
+
+
+    function loopToFilter(filterNameHide, filterNameShow, addClass) {
+
+      var idFilterHide = document.querySelectorAll(filterNameHide),
+        idFilterShow = document.querySelectorAll(filterNameShow);
+
+      document.getElementById(addClass).className += " activeThis ";
+
+      for (var i = 0, length = idFilterHide.length; i < length; i++) {
+        idFilterHide[i].style.display = 'none';
+      }
+
+      for (var i = 0, length = idFilterShow.length; i < length; i++) {
+        idFilterShow[i].style.display = 'flex';
+      }
+      if (filterNameShow === null) {
+        var idFilterShow = document.querySelectorAll('.elementList');
+        for (var i = 0, length = idFilterShow.length; i < length; i++) {
+          idFilterShow[i].style.display = 'flex';
+        }
+        for (var i = 0, length = idFilterHide.length; i < length; i++) {
+          idFilterHide[i].style.display = 'none';
+        }
+
+
+      }
+    }
+
+    var thisElementId = elem.target.attributes.getNamedItem('id').value;
+    switch (thisElementId) {
+      case 'active':
+        loopToFilter('.completed', null, thisElementId);
+
+        break;
+
+      case 'completed' :
+
+        loopToFilter('.elementList', '.completed', thisElementId);
+
+        break;
+
+      default:
+        loopToFilter(null, '.elementList', thisElementId);
+        break;
+    }
+
+
+  },
   render: function () {
     var main;
     var doneAll;
@@ -145,7 +199,7 @@ var TodoApp = React.createClass({
       main = (
         <ListClassElementList text={model} onClickDone={this.handleClickDone}/>
       );
-      ulDown = (<ListClassDown count={this.state.count}/>);
+      ulDown = (<ListClassDown count={this.state.count} onClick={this.handleClickFilter}/>);
 
     }
 
