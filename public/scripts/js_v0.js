@@ -105,7 +105,9 @@ var TodoApp = React.createClass({
 
   handleClick: function () {
     if (model.length)
-      $('#itemList #down_li').remove();
+      var elem = document.getElementById('itemList down_li');
+      elem.parentNode.removeChild(elem);
+      //$('#itemList #down_li').remove();
 
   },
   handleClickDone: function (event) {//event
