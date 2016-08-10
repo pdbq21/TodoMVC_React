@@ -10,7 +10,7 @@ var HtmlElementClassDoneAll = React.createClass({
 
   render: function () {
     return (
-      <em id='doneAll' className='glyphicon glyphicon-ok'></em>
+      <em id='doneAll' className='glyphicon glyphicon-ok' onClick={this.props.onClick}></em>
     );
   }
 
@@ -80,7 +80,7 @@ var TodoApp = React.createClass({
       }
       ],
       count: 0,
-      countActive: 0
+      countActive: []
     };
 
 
@@ -103,24 +103,17 @@ var TodoApp = React.createClass({
     return event.target.value = '';// строка ввода пуста
   },
 
-  /*handleClick: function () {
-   if (model.length)
-   var elem = document.getElementById('itemList down_li');
-   elem.parentNode.removeChild(elem);
-   //$('#itemList #down_li').remove();
-
-   },*/
   handleClickDone: function (event) {//event
     var self = this;
     var dataId = event.target.attributes.getNamedItem('data-reactid').value;// $().attr()
     model[dataId].active = 'completed' === model[dataId].active ?
       (function () {
-        self.state.countActive--;
+        self.state.countActive.splice(0, 1);
 
         return ''
       })() :
       (function () {
-        self.state.countActive++;
+        self.state.countActive.push('active');
         return 'completed'
       })();
 
@@ -130,7 +123,7 @@ var TodoApp = React.createClass({
   },
 
   countItem: function () {
-    this.state.count = model.length - this.state.countActive;
+    this.state.count = model.length - this.state.countActive.length;
 
     this.setState({count: this.state.count});
 
@@ -190,13 +183,43 @@ var TodoApp = React.createClass({
 
   },
 
-  handleClickDelete: function(event){
+  handleClickDelete: function (event) {
 
     var dataId = event.target.attributes.getNamedItem('data-reactid').value;
+    if (model[dataId].active !== '') {
+      this.state.countActive.splice(0, 1);
+    }
     model.splice(dataId, 1);
 
+    this.countItem();
+  },
 
-    this.setState({model: ''});
+
+  handleClickDoneAll: function () {
+
+
+    var self = this;
+model.map(function (index) {
+  if (self.state.count !== 0 ) {
+    if (index.active === 'completed') return;
+
+    index.active = 'completed' === index.active ?
+      (function () {
+        self.state.countActive.splice(0, 1);
+
+        return ''
+      })() :
+      (function () {
+        self.state.countActive.push('active');
+        return 'completed'
+      })();
+  }
+  else {
+    index.active = '';
+    self.state.countActive.splice(0, 1);
+  }
+});
+    this.setState({active: ''});
     this.countItem();
 
   },
@@ -205,7 +228,7 @@ var TodoApp = React.createClass({
     var doneAll;
     var ulDown;
     if (model.length) {
-      doneAll = (<HtmlElementClassDoneAll />);
+      doneAll = (<HtmlElementClassDoneAll onClick={this.handleClickDoneAll}/>);
 
       main = (
         <ListClassElementList text={model} onClickDone={this.handleClickDone} onclickDelete={this.handleClickDelete}/>
