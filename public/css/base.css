@@ -125,7 +125,6 @@ li{
 
 }
 #ClearCompleted {
-  visibility: hidden;
   margin-left: 3em!important;
   transform: none;
   cursor: pointer;
