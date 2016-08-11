@@ -98,6 +98,13 @@
 
         $('#ClearCompleted').hide();
       }
+
+      if (this.state.count === 0){
+        $('#doneAll').css('color', '#999999');
+      }
+      else{
+        $('#doneAll').css('color', '#D6D6D6');
+      }
       this.filterElementId();
 
     },
@@ -258,13 +265,13 @@
               self.state.countActive.push('active');
               return 'completed'
             })();
-          $('#doneAll').css('color', '#999999');
+          //$('#doneAll').css('color', '#999999');
           //document.getElementById('doneAll').style.color = '#999999';
         }
         else {
           index.active = '';
           self.state.countActive.splice(0, 1);
-          $('#doneAll').css('color', '#D6D6D6');
+          //$('#doneAll').css('color', '#D6D6D6');
           //document.getElementById('doneAll').style.color = '#D6D6D6';
           // ClearCompleted();
         }
