@@ -88,20 +88,27 @@
 
     },
 
-
-    countItem: function () {
+    componentDidUpdate: function () {
       if (this.state.countActive.length > 0){
-
-        $("#ClearCompleted").show();
+        // document.getElementById('ClearCompleted').style.visibility = 'visible';
+        $('#ClearCompleted').show();
       }
       else {
-        $("#ClearCompleted").hide();
+        //document.getElementById('ClearCompleted').style.visibility = 'hidden';
+
+        $('#ClearCompleted').hide();
       }
+      this.filterElementId();
+
+    },
+
+    countItem: function () {
+
+
       this.state.count = model.length - this.state.countActive.length;
 
 
       this.setState({count: this.state.count});
-
 
 
     },
@@ -122,8 +129,9 @@
       /*if (this.state.filter === 'completed'){
        document.getElementsByClassName('elementList').lastChild.style.display = 'none';
        }*/
-      this.filterElementId();
+
       this.countItem();
+     // this.filterElementId();
       return event.target.value = '';// строка ввода пуста
     },
 
@@ -142,8 +150,8 @@
         })();
 
       this.setState({active: ''});
-      this.countItem();
-      this.filterElementId();
+     this.countItem();
+     // this.filterElementId();
 
     },
     filterElementId: function(){
@@ -157,6 +165,8 @@
         var idFilterHide = document.querySelectorAll(filterNameHide),
           idFilterShow = document.querySelectorAll(filterNameShow);
         $("#" + addClass).addClass("activeThis");
+
+
 
         //document.getElementById(addClass).className += " activeThis ";
         var i, length;
@@ -261,14 +271,15 @@
       });
       this.setState({active: ''});
       this.countItem();
-
+      //this.filterElementId();
     },
     ClearCompleted: function(){
 
       model = model.filter(function(x) { return x.active === ''; });
       this.state.countActive.slice(0);
       this.setState({model: '', countActive: []});
-
+      this.countItem();
+      //this.filterElementId();
 
     },
 
@@ -276,8 +287,7 @@
       var main,
         doneAll,
         ulDown;
-
-      if (model.length) {
+      if (model.length ) {
         doneAll = (<HtmlElementClassDoneAll onClick={this.handleClickDoneAll}/>);
 
         main = (
