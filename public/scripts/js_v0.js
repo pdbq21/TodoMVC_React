@@ -34,7 +34,7 @@ var ListClassDown = React.createClass({
           <span className="filter activeThis" id="all" onClick={this.props.onClick}>All</span>
           <span className="filter" id="active" onClick={this.props.onClick}>Active</span>
           <span className="filter" id="completed" onClick={this.props.onClick}>Completed</span>
-          <span id="ClearCompleted" style={this.props.style}>ClearCompleted</span>
+          <span id="ClearCompleted" onClick={this.props.onClickClear}>ClearCompleted</span>
         </div>
       </li>
     );
@@ -80,8 +80,7 @@ var TodoApp = React.createClass({
       }
       ],
       count: 0,
-      countActive: [],
-      isDone: false
+      countActive: []
     };
 
 
@@ -124,9 +123,19 @@ var TodoApp = React.createClass({
   },
 
   countItem: function () {
+    if (this.state.countActive.length > 0){
+
+      document.getElementById('ClearCompleted').style.visibility = 'visible';
+    }
+    else{
+      document.getElementById('ClearCompleted').style.visibility = 'hidden';
+    }
+
     this.state.count = model.length - this.state.countActive.length;
 
     this.setState({count: this.state.count});
+
+
 
   },
   handleClickFilter: function (elem) {
@@ -228,16 +237,12 @@ model.map(function (index) {
 
   },
   ClearCompleted: function(){
-/*
-if (this.state.countActive.length !== 0){
-  this.state.isDone = true;
-}*/
-    if (this.state.isDone){
-      document.getElementById('ClearCompleted').style.display = 'box';
-    }
-    else{
-      document.getElementById('ClearCompleted').style.display = 'none';
-    }
+
+    model = model.filter(function(x) { return x.active === ''; });
+    this.state.countActive.slice(0);
+    this.setState({model: '', countActive: []});
+
+
   },
 
   render: function () {
@@ -251,7 +256,7 @@ if (this.state.countActive.length !== 0){
       main = (
         <ListClassElementList text={model} onClickDone={this.handleClickDone} onclickDelete={this.handleClickDelete}/>
       );
-      ulDown = (<ListClassDown count={this.state.count} onClick={this.handleClickFilter} />);
+      ulDown = (<ListClassDown count={this.state.count} onClick={this.handleClickFilter} onClickClear={this.ClearCompleted}/>);
 
     }
 
