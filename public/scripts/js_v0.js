@@ -34,7 +34,7 @@ var ListClassDown = React.createClass({
           <span className="filter activeThis" id="all" onClick={this.props.onClick}>All</span>
           <span className="filter" id="active" onClick={this.props.onClick}>Active</span>
           <span className="filter" id="completed" onClick={this.props.onClick}>Completed</span>
-          <span id="ClearCompleted" style={{display: 'none'}}>ClearCompleted</span>
+          <span id="ClearCompleted" style={this.props.style}>ClearCompleted</span>
         </div>
       </li>
     );
@@ -80,7 +80,8 @@ var TodoApp = React.createClass({
       }
       ],
       count: 0,
-      countActive: []
+      countActive: [],
+      isDone: false
     };
 
 
@@ -213,27 +214,44 @@ model.map(function (index) {
         self.state.countActive.push('active');
         return 'completed'
       })();
+    document.getElementById('doneAll').style.color = '#999999';
   }
   else {
     index.active = '';
     self.state.countActive.splice(0, 1);
+    document.getElementById('doneAll').style.color = '#D6D6D6';
+   // ClearCompleted();
   }
 });
     this.setState({active: ''});
     this.countItem();
 
   },
+  ClearCompleted: function(){
+/*
+if (this.state.countActive.length !== 0){
+  this.state.isDone = true;
+}*/
+    if (this.state.isDone){
+      document.getElementById('ClearCompleted').style.display = 'box';
+    }
+    else{
+      document.getElementById('ClearCompleted').style.display = 'none';
+    }
+  },
+
   render: function () {
-    var main;
-    var doneAll;
-    var ulDown;
+    var main,
+     doneAll,
+     ulDown;
+
     if (model.length) {
       doneAll = (<HtmlElementClassDoneAll onClick={this.handleClickDoneAll}/>);
 
       main = (
         <ListClassElementList text={model} onClickDone={this.handleClickDone} onclickDelete={this.handleClickDelete}/>
       );
-      ulDown = (<ListClassDown count={this.state.count} onClick={this.handleClickFilter}/>);
+      ulDown = (<ListClassDown count={this.state.count} onClick={this.handleClickFilter} />);
 
     }
 
