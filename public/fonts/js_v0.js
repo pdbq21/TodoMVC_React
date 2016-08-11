@@ -81,18 +81,12 @@ var TodoApp = React.createClass({
       }
       ],
       count: 0,
-<<<<<<< Updated upstream
-      countActive: []
-=======
       countActive: [],
       filter: 'all'
->>>>>>> Stashed changes
     };
 
 
   },
-<<<<<<< Updated upstream
-=======
 
 
   countItem: function () {
@@ -107,8 +101,10 @@ var TodoApp = React.createClass({
 
 
     this.setState({count: this.state.count});
->>>>>>> Stashed changes
 
+
+
+  },
   handleSubmit: function (event) {
     if (event.keyCode !== 13) {
       return;
@@ -122,6 +118,11 @@ var TodoApp = React.createClass({
       active: ''
     });
     this.setState({textInput: ''});
+    //this.filterElementId(document.getElementsByClassName('activeThis').id);
+    /*if (this.state.filter === 'completed'){
+    document.getElementsByClassName('elementList').lastChild.style.display = 'none';
+    }*/
+    this.filterElementId();
     this.countItem();
     return event.target.value = '';// строка ввода пуста
   },
@@ -142,35 +143,14 @@ var TodoApp = React.createClass({
 
     this.setState({active: ''});
     this.countItem();
+    this.filterElementId();
 
   },
-
-  countItem: function () {
-    if (this.state.countActive.length > 0){
-
-      document.getElementById('ClearCompleted').style.visibility = 'visible';
-    }
-    else{
-      document.getElementById('ClearCompleted').style.visibility = 'hidden';
-    }
-
-    this.state.count = model.length - this.state.countActive.length;
-
-    this.setState({count: this.state.count});
-
-
-
-  },
-  handleClickFilter: function (elem) {
-
-
+  filterElementId: function(){
+    var thisElementId =this.state.filter;
     document.getElementsByClassName("activeThis")[0].className =
       document.getElementsByClassName("activeThis")[0].className.replace("activeThis", "");
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
     function loopToFilter(filterNameHide, filterNameShow, addClass) {
 
       var idFilterHide = document.querySelectorAll(filterNameHide),
@@ -198,7 +178,6 @@ var i, length;
       }
     }
 
-    var thisElementId = elem.target.attributes.getNamedItem('id').value;
     switch (thisElementId) {
       case 'active':
         loopToFilter('.completed', null, thisElementId);
@@ -217,8 +196,21 @@ var i, length;
         break;
     }
 
+  },
+
+  handleClickFilter: function (elem) {
+
+
+
+
+
+
+    this.state.filter = elem.target.attributes.getNamedItem('id').value;
+    this.filterElementId();
+
 
   },
+
 
   handleClickDelete: function (event) {
 
